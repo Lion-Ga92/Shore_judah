@@ -55,8 +55,20 @@ class Trees(pygame.sprite.Sprite):
             randint(50, 600)
         ))
 
-class Loadbar(pygame.sprite.Sprite):
+
+class Rocks(pygame.sprite.Sprite):
     def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.surf = pygame.Surface((35, 93))
+        self.surf = pygame.image.load("Rock1.png").convert()
+        self.surf.set_colorkey((250, 211, 107))
+        self.rect = self.surf.get_rect(center=(
+            randint(50, 600),
+            randint(50, 600)
+        ))
+
+class Loadbar(pygame.sprite.Sprite):
+    def __init__(self, Location1):
         super(Loadbar, self).__init__()
         self.load_images = []
         self.load_images.append(pygame.image.load("loading1.png"))
@@ -84,7 +96,7 @@ class Loadbar(pygame.sprite.Sprite):
         self.index = 0
         self.image = self.load_images[self.index]
 
-        self.rect = pygame.Rect(130, 680, 200, 600)
+        self.rect = pygame.Rect(Location1)   #I NEED THESE VALUES 130, 680, 200, 600
 
     def updates(self):
         self.index += 1
@@ -149,17 +161,23 @@ class Player(pygame.sprite.Sprite):
         if self.rect.bottom >= 645:
             self.rect.bottom = 645
 
-        #trying to get the rect to stop around the trees and objects
-    
-
+        #trying to get the rect to stop around the trees and object
+           
 player = Player()
 tree = Trees()
 tree2 = Trees()
 tree_3 = Trees()
 tree_4 = Trees()
-loading_scr = Loadbar()
-         
+loading_scr = Loadbar((130, 680, 200, 600))
+loading_scr1 = Loadbar((160, 760, 200, 600))
 
+rock = Rocks()
+rock2 = Rocks()
+rock3 = Rocks()
+         
+rock_group = pygame.sprite.Group(rock, rock2, rock3)
+
+load_group2 = pygame.sprite.Group(loading_scr1)
 load_groupi = pygame.sprite.Group(loading_scr)
 my_sprite = pygame.sprite.Group(player)
 tree_group = pygame.sprite.Group(tree, tree2, tree_3, tree_4)
@@ -195,6 +213,10 @@ while running:
 
     # update the loadbar 
     loading_scr.updates()
+
+    # Update the rocks bad:
+
+    loading_scr1.updates()
     
     #Blit it it to the screen 
     screen.blit(bg_map.image, bg_map.rect)
@@ -203,12 +225,19 @@ while running:
 
     my_sprite.draw(screen)
 
+    for enti in rock_group:
+        screen.blit(enti.surf, enti.rect)
+
     for entity in tree_group:
         screen.blit(entity.surf, entity.rect)
 
     if pygame.sprite.spritecollideany(player, tree_group):
         for entity in load_groupi:
             screen.blit(entity.image, entity.rect)
+
+    if pygame.sprite.spritecollideany(player, rock_group):
+        for entit in load_group2:
+            screen.blit(entit.image, entit.rect)
 
         
     pygame.display.flip()
