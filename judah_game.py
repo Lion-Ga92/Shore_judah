@@ -231,6 +231,8 @@ while running:
     for entity in tree_group:
         screen.blit(entity.surf, entity.rect)
 
+
+    # THESE BLIT ARE FOR THE LOADBARS 
     if pygame.sprite.spritecollideany(player, tree_group):
         for entity in load_groupi:
             screen.blit(entity.image, entity.rect)
