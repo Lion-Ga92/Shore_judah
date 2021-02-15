@@ -103,7 +103,7 @@ class Loadbar(pygame.sprite.Sprite):
 
         if self.index >= len(self.load_images):
             self.index = 0
-
+        
         self.image = self.load_images[self.index]
 
 class Player(pygame.sprite.Sprite):
@@ -242,3 +242,6 @@ while running:
         
     pygame.display.flip()
     clock.tick(25)
+
+# THIS COMMENT IS A FLAG TO SEE IF I CAN PUSH THINGS TO GITHUB WITH AN ACCESS TOKEN THROUGH VSCODE
+
